@@ -15,8 +15,7 @@ void main() {
   ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarIconBrightness: Brightness.dark
+    statusBarIconBrightness: Brightness.light,
   ));
   runApp(const OnBoarding());
 }
