@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-import 'package:walkmate/config/route/app_routes.dart';
-import 'package:walkmate/feature/common_widget/custom_button.dart';
-import 'package:walkmate/resources/color_manager.dart';
 
 import '../../resources/assets_manager.dart';
+import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
 import '../../resources/values_manager.dart';
+import '../common_widget/custom_button.dart';
 import '../common_widget/custom_text.dart';
 
-class SetLandingPage extends StatelessWidget {
-  const SetLandingPage({Key? key}) : super(key: key);
+
+class Checkpoint extends StatelessWidget {
+  const Checkpoint({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,29 +52,19 @@ class SetLandingPage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Spacer(),
                     Padding(
-                        padding: EdgeInsets.only(
-                          top: AppPadding.p4.h,
+                      padding: EdgeInsets.only(
+                          top: AppPadding.p8.h,
                           left: AppPadding.p2.h,
-                          right: AppPadding.p4.h,
-                          bottom: AppPadding.p4.h,
-                        ),
-                        child: CustomText(
-                            text: 'Set your walking goal today!',
-                            textColor: Colors.white,
-                            fontSize: FontSize.s24,
-                            fontWeight: FontWeightManager.medium)),
-                    Padding(
-                        padding: EdgeInsets.only(
-                          left: AppPadding.p2.h,
-                          right: AppPadding.p4.h,
-                        ),
-                        child: CustomText(
-                            text:
-                                'Your determination and effort is inspiring. Keep pushing yourself to reach new heights.',
-                            textColor: Colors.white,
-                            fontSize: FontSize.s12,
-                            fontWeight: FontWeightManager.light)),
+                          right: AppPadding.p2.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -84,27 +73,37 @@ class SetLandingPage extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 5.h,
+            height: 3.h,
           ),
-          Text(
-            "Add your target",
-            style: GoogleFonts.manrope(
-                fontWeight: FontWeightManager.medium, fontSize: FontSize.s20),
+          Align(
+            alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: AppPadding.p12),
+                  child: CustomText(
+                      text: 'CHECKPOINT',
+                    fontWeight: FontWeightManager.medium,
+                    fontSize: FontSize.s12
+                  ))),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(left: AppPadding.p12,right: AppPadding.p12),
+              itemCount: 15,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context,index){
+                  return ListTile(
+                    visualDensity: const VisualDensity(horizontal: VisualDensity.minimumDensity,vertical: VisualDensity.minimumDensity),
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 0,
+                    leading: Image.asset(AssetsManager.flag,height: 20,width: 20,),
+                    title: CustomText(text: 'Checkpoint $index'),
+                    trailing: CustomText(text: '${100*index}'),
+                  );
+                }
+            ),
           ),
-          Slider.adaptive(
-            min: 0.0,
-            max: 100.0,
-            value: 0.5,
-            divisions: 5,
-            label: '12',
-            onChanged: (value) {},
-          ),
-          Spacer(),
+
           CustomButton(
-            text: 'Set limit',
-            onTap: (){
-              context.pushNamed(AppRoutes.checkPoint);
-            },
+            text: 'Add checkpoint',
             color: ColorManager.primary,
             width: size.width * 0.2,
             height: size.height * 0.007,
@@ -113,7 +112,7 @@ class SetLandingPage extends StatelessWidget {
             height: 1.h,
           ),
           CustomButton(
-            text: 'History',
+            text: 'Mark as completed',
             onTap: () {},
             textColor: ColorManager.primary,
             isBorder: true,
