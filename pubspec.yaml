@@ -18,6 +18,7 @@ dependencies:
   google_fonts: ^4.0.3 #uses for application fonts
   go_router: ^6.5.7 # for application route
   sizer: ^2.0.15  #for responsive design
+  flutter_svg: ^2.0.5 #for svg image show
 
 dev_dependencies:
   flutter_test:
