@@ -91,13 +91,22 @@ class SetLandingPage extends StatelessWidget {
             style: GoogleFonts.manrope(
                 fontWeight: FontWeightManager.medium, fontSize: FontSize.s20),
           ),
-          Slider.adaptive(
-            min: 0.0,
-            max: 100.0,
-            value: 0.5,
-            divisions: 5,
-            label: '12',
-            onChanged: (value) {},
+          SliderTheme(
+            data: SliderThemeData(
+                thumbColor: ColorManager.primary,
+
+                thumbShape: RoundSliderThumbShape(
+                    enabledThumbRadius: 20,
+                ),
+
+            ),
+            child: Slider.adaptive(
+
+              value: 0.5,
+              divisions: 5,
+              label: '12',
+              onChanged: (value) {},
+            ),
           ),
           Spacer(),
           CustomButton(

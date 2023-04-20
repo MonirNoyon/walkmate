@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:walkmate/feature/landing/widget/custom_slider.dart';
 
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
@@ -10,13 +10,24 @@ import '../../resources/values_manager.dart';
 import '../common_widget/custom_button.dart';
 import '../common_widget/custom_text.dart';
 
+class Checkpoint extends StatefulWidget {
+  Checkpoint({Key? key}) : super(key: key);
 
-class Checkpoint extends StatelessWidget {
-  const Checkpoint({Key? key}) : super(key: key);
+  @override
+  State<Checkpoint> createState() => _CheckpointState();
+}
+
+class _CheckpointState extends State<Checkpoint> {
+  double value = 75;
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
+
+
+
     return Scaffold(
       body: Column(
         children: [
@@ -52,56 +63,59 @@ class Checkpoint extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: AppPadding.p8.h,
+                          top: AppPadding.p4.h,
                           left: AppPadding.p2.h,
                           right: AppPadding.p2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-
-                        ],
+                      child: SizedBox(
+                        height: size.height * 0.25,
+                        child: CustomSlider(),
                       ),
                     ),
                   ],
                 ),
               ),
               Positioned(
-                  top: 0, right: 0, child: SvgPicture.asset(AssetsManager.pattern)),
+                  top: 0,
+                  right: 0,
+                  child: SvgPicture.asset(AssetsManager.pattern)),
             ],
           ),
           SizedBox(
             height: 3.h,
           ),
           Align(
-            alignment: Alignment.topLeft,
+              alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: AppPadding.p12),
+                  padding: const EdgeInsets.only(left: AppPadding.p12),
                   child: CustomText(
                       text: 'CHECKPOINT',
-                    fontWeight: FontWeightManager.medium,
-                    fontSize: FontSize.s12
-                  ))),
+                      fontWeight: FontWeightManager.medium,
+                      fontSize: FontSize.s12))),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.only(left: AppPadding.p12,right: AppPadding.p12),
-              itemCount: 15,
+                padding: const EdgeInsets.only(
+                    left: AppPadding.p12, right: AppPadding.p12),
+                itemCount: 15,
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context,index){
+                itemBuilder: (context, index) {
                   return ListTile(
-                    visualDensity: const VisualDensity(horizontal: VisualDensity.minimumDensity,vertical: VisualDensity.minimumDensity),
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 0,
-                    leading: Image.asset(AssetsManager.flag,height: 20,width: 20,),
+                    leading: Image.asset(
+                      AssetsManager.flag,
+                      height: 20,
+                      width: 20,
+                    ),
                     title: CustomText(text: 'Checkpoint $index'),
-                    trailing: CustomText(text: '${100*index}'),
+                    trailing: CustomText(text: '${100 * index}'),
                   );
-                }
-            ),
+                }),
           ),
-
           CustomButton(
             text: 'Add checkpoint',
             color: ColorManager.primary,
@@ -128,3 +142,8 @@ class Checkpoint extends StatelessWidget {
     );
   }
 }
+
+
+
+
+

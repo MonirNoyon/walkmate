@@ -19,6 +19,6 @@ class AppPages {
     GoRoute(
         name: AppRoutes.checkPoint,
         path: "/${AppRoutes.checkPoint}",
-        builder: ((context, state) => const Checkpoint())),
+        builder: ((context, state) =>  Checkpoint())),
   ]);
 }
