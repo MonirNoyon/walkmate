@@ -1,5 +1,6 @@
 
 import 'package:go_router/go_router.dart';
+import 'package:walkmate/feature/congrats/congrates.dart';
 import 'package:walkmate/feature/home/home_page.dart';
 import 'package:walkmate/feature/landing/checkpoint.dart';
 import 'package:walkmate/feature/landing/set_landing.dart';
@@ -20,5 +21,9 @@ class AppPages {
         name: AppRoutes.checkPoint,
         path: "/${AppRoutes.checkPoint}",
         builder: ((context, state) =>  Checkpoint())),
+    GoRoute(
+        name: AppRoutes.congrats,
+        path: "/${AppRoutes.congrats}",
+        builder: ((context, state) =>  Congrats())),
   ]);
 }

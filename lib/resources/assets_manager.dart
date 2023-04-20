@@ -6,4 +6,5 @@ class AssetsManager{
   static const personDark = "assets/Dark_Image.png";
   static const pattern = "assets/Pattern.svg";
   static const flag = "assets/Checkpoint.png";
+  static const congrats = "assets/Congrats.png";
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
+import 'package:walkmate/config/route/app_routes.dart';
 import 'package:walkmate/feature/landing/widget/custom_slider.dart';
 
 import '../../resources/assets_manager.dart';
@@ -118,6 +120,9 @@ class _CheckpointState extends State<Checkpoint> {
           ),
           CustomButton(
             text: 'Add checkpoint',
+            onTap: (){
+              context.pushNamed(AppRoutes.congrats);
+            },
             color: ColorManager.primary,
             width: size.width * 0.2,
             height: size.height * 0.007,
