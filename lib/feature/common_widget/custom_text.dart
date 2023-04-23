@@ -4,14 +4,13 @@ import 'package:sizer/sizer.dart';
 
 Widget CustomText({
   required String text,
-  Color textColor = Colors.black,
   double fontSize = 12,
-  FontWeight fontWeight = FontWeight.w400
+  FontWeight fontWeight = FontWeight.w400,
+  TextStyle? textStyle,
 })=>Text(
   text,
   style: GoogleFonts.plusJakartaSans(
-    color: textColor,
     fontSize: fontSize.sp,
     fontWeight: fontWeight
-  ),
+  ).merge(textStyle),
 );

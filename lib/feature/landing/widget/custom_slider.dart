@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../resources/font_manager.dart';
@@ -78,11 +79,15 @@ class _CustomSliderState extends State<CustomSlider> {
               children: [
                 CustomText(
                     text: "Completed",
-                    textColor: Colors.white
+                  textStyle: GoogleFonts.manrope(
+                    color: Colors.white
+                  )
                 ),
                 CustomText(
                     text: "4500m",
-                    textColor: Colors.white,
+                    textStyle: GoogleFonts.plusJakartaSans(
+                      color: Colors.white
+                    ),
                     fontSize: FontSize.s20,
                     fontWeight: FontWeightManager.medium
                 ),
@@ -93,11 +98,15 @@ class _CustomSliderState extends State<CustomSlider> {
               children: [
                 CustomText(
                     text: "Target",
-                    textColor: Colors.white
+                    textStyle: GoogleFonts.manrope(
+                        color: Colors.white70
+                    )
                 ),
                 CustomText(
                     text: "9000m",
-                    textColor: Colors.white54,
+                    textStyle: GoogleFonts.plusJakartaSans(
+                        color: Colors.white70
+                    ),
                     fontSize: FontSize.s20,
                     fontWeight: FontWeightManager.medium
                 ),

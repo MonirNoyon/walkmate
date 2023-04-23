@@ -65,7 +65,9 @@ class _SetLandingPageState extends State<SetLandingPage> {
                         ),
                         child: CustomText(
                             text: 'Set your walking goal today!',
-                            textColor: Colors.white,
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              color: Colors.white
+                            ),
                             fontSize: FontSize.s24,
                             fontWeight: FontWeightManager.medium)),
                     Padding(
@@ -76,7 +78,9 @@ class _SetLandingPageState extends State<SetLandingPage> {
                         child: CustomText(
                             text:
                                 'Your determination and effort is inspiring. Keep pushing yourself to reach new heights.',
-                            textColor: Colors.white,
+                            textStyle: GoogleFonts.plusJakartaSans(
+                                color: Colors.white
+                            ),
                             fontSize: FontSize.s12,
                             fontWeight: FontWeightManager.light)),
                   ],

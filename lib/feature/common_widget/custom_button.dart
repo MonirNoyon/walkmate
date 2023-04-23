@@ -58,7 +58,9 @@ Widget CustomButton({
         child: Center(
           child: CustomText(
               text: text,
-            textColor: textColor,
+            textStyle: GoogleFonts.manrope(
+              color: isBorder ? ColorManager.primary : Colors.white
+            ),
             fontWeight: fontWeight,
             fontSize: fontSize.sp
           ),

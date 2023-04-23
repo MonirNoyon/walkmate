@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../data/app_state_management.dart';
 import '../../resources/assets_manager.dart';
@@ -21,7 +22,9 @@ class CustomAppBar extends ConsumerWidget {
       children: [
         CustomText(
             text: 'WalkMate',
-            textColor: isTitleColorChange ? Colors.white : ColorManager.primary,
+            textStyle: GoogleFonts.plusJakartaSans(
+              color: isTitleColorChange ? Colors.white : ColorManager.primary
+            ),
             fontSize: FontSize.s14,
             fontWeight: FontWeightManager.semiBold),
         GestureDetector(

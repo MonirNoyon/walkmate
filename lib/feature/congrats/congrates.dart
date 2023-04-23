@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/config/route/app_routes.dart';
 import 'package:walkmate/feature/common_widget/custom_appbar.dart';
@@ -56,7 +57,9 @@ class _CongratsState extends State<Congrats> {
               ),
             child: CustomText(
                 text: 'Congratulations\non Reaching Your\nTarget',
-                    textColor: ColorManager.primary,
+              textStyle: GoogleFonts.plusJakartaSans(
+                color: ColorManager.primary
+              ),
               fontSize: 22,
               fontWeight: FontWeightManager.medium
                     ),
@@ -69,7 +72,6 @@ class _CongratsState extends State<Congrats> {
               ),
             child: CustomText(
                 text: 'Your determination and effort is\ninspiring. Keep pushing yourself to\nreach new heights',
-
               fontSize: 12,
               fontWeight: FontWeightManager.light
                     ),
