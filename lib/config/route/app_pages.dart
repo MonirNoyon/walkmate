@@ -1,4 +1,3 @@
-
 import 'package:go_router/go_router.dart';
 import 'package:walkmate/feature/congrats/congrates.dart';
 import 'package:walkmate/feature/home/home_page.dart';
@@ -10,9 +9,7 @@ import 'app_routes.dart';
 class AppPages {
   static GoRouter router = GoRouter(initialLocation: '/', routes: [
     GoRoute(
-        name: '/',
-        path: "/",
-        builder: ((context, state) => const HomePage())),
+        name: '/', path: "/", builder: ((context, state) => const HomePage())),
     GoRoute(
         name: AppRoutes.setLanding,
         path: "/${AppRoutes.setLanding}",
@@ -20,10 +17,12 @@ class AppPages {
     GoRoute(
         name: AppRoutes.checkPoint,
         path: "/${AppRoutes.checkPoint}",
-        builder: ((context, state) =>  CheckPoint())),
+        builder: ((context, state) => CheckPoint())),
     GoRoute(
         name: AppRoutes.congrats,
         path: "/${AppRoutes.congrats}",
-        builder: ((context, state) =>  Congrats())),
+        builder: ((context, state) => Congrats(
+              isComplete: state.queryParams['isComplete'].toString(),
+            ))),
   ]);
 }

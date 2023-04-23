@@ -79,6 +79,11 @@ class CheckPoint extends ConsumerWidget {
                       text: 'CHECKPOINT',
                       fontWeight: FontWeightManager.medium,
                       fontSize: FontSize.s12))),
+          const Divider(
+            endIndent: AppPadding.p12,
+            indent: AppPadding.p12,
+          ),
+
           Expanded(
             child: ListView.builder(
                 padding: const EdgeInsets.only(
@@ -105,7 +110,10 @@ class CheckPoint extends ConsumerWidget {
           CustomButton(
             text: 'Add checkpoint',
             onTap: (){
-              context.pushNamed(AppRoutes.congrats);
+              context.pushNamed(
+                  AppRoutes.congrats,
+                  queryParams: {'isComplete': "1"}
+              );
             },
             color: ColorManager.primary,
             width: size.width * 0.2,
@@ -116,7 +124,12 @@ class CheckPoint extends ConsumerWidget {
           ),
           CustomButton(
             text: 'Mark as completed',
-            onTap: () {},
+            onTap: () {
+              context.pushNamed(
+                  AppRoutes.congrats,
+                  queryParams: {'isComplete': "0"}
+              );
+            },
             textColor: ColorManager.primary,
             isBorder: true,
             isSelected: true,
@@ -124,7 +137,7 @@ class CheckPoint extends ConsumerWidget {
             height: size.height * 0.007,
           ),
           SizedBox(
-            height: 3.h,
+            height: 1.h,
           ),
         ],
       ),

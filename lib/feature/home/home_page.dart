@@ -15,12 +15,27 @@ import 'package:walkmate/resources/values_manager.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../config/route/app_routes.dart';
+import '../../data/services/notification_service.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  HomePageState createState() => HomePageState();
+}
+
+class HomePageState extends ConsumerState<HomePage> {
+  final NotificationServices _notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationServices.initializeNotification();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     var darkMode = ref.watch(appState);
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -63,7 +78,13 @@ class HomePage extends ConsumerWidget {
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
                         text: 'Get started',
-                        onTap: ()=> context.goNamed(AppRoutes.setLanding),
+                        onTap: () async{
+                          await _notificationServices.sendNotifications(
+                              "Target Completed",
+                              "You Covered 5000m-WalkMate"
+                          );
+                        },
+                        // onTap: ()=> context.goNamed(AppRoutes.setLanding),
                         textColor: Colors.white,
                         width: size.width * 0.16,
                         height: size.height * 0.007,
