@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/config/route/app_routes.dart';
+import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/landing/widget/custom_slider.dart';
 
+import '../../data/app_state_management.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
@@ -12,29 +15,24 @@ import '../../resources/values_manager.dart';
 import '../common_widget/custom_button.dart';
 import '../common_widget/custom_text.dart';
 
-class Checkpoint extends StatefulWidget {
-  Checkpoint({Key? key}) : super(key: key);
+class CheckPoint extends ConsumerWidget {
+   CheckPoint({Key? key}) : super(key: key);
 
   @override
-  State<Checkpoint> createState() => _CheckpointState();
-}
-
-class _CheckpointState extends State<Checkpoint> {
-  double value = 75;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     final size = MediaQuery
         .of(context)
         .size;
-
-
-
     return Scaffold(
       body: Column(
         children: [
           Stack(
+            clipBehavior: Clip.none,
             children: [
+              Positioned(
+                  top: 0,
+                  right: 0,
+                  child: SvgPicture.asset(AssetsManager.pattern)),
               Container(
                 height: size.height / 2,
                 decoration: BoxDecoration(
@@ -50,19 +48,8 @@ class _CheckpointState extends State<Checkpoint> {
                           top: AppPadding.p8.h,
                           left: AppPadding.p2.h,
                           right: AppPadding.p2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                              text: 'WalkMate',
-                              textColor: Colors.white,
-                              fontSize: FontSize.s14,
-                              fontWeight: FontWeightManager.semiBold),
-                          SvgPicture.asset(
-                            AssetsManager.themeImage,
-                            color: Colors.white,
-                          ),
-                        ],
+                      child: CustomAppBar(
+                        isTitleColorChange: true,
                       ),
                     ),
                     Padding(
@@ -78,10 +65,7 @@ class _CheckpointState extends State<Checkpoint> {
                   ],
                 ),
               ),
-              Positioned(
-                  top: 0,
-                  right: 0,
-                  child: SvgPicture.asset(AssetsManager.pattern)),
+
             ],
           ),
           SizedBox(
@@ -147,6 +131,7 @@ class _CheckpointState extends State<Checkpoint> {
     );
   }
 }
+
 
 
 

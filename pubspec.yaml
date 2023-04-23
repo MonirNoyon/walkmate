@@ -20,7 +20,7 @@ dependencies:
   sizer: ^2.0.15  #for responsive design
   flutter_svg: ^2.0.5 #for svg image show
   flutter_animate: ^4.1.1+1 #animate any widget
-  filling_slider: ^0.0.3
+  flutter_riverpod: ^2.3.5  # application state management
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
+import 'package:walkmate/config/route/app_routes.dart';
+import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/common_widget/custom_button.dart';
 
 import '../../resources/assets_manager.dart';
@@ -10,9 +13,14 @@ import '../../resources/values_manager.dart';
 import '../common_widget/custom_text.dart';
 
 
-class Congrats extends StatelessWidget {
+class Congrats extends StatefulWidget {
   const Congrats({Key? key}) : super(key: key);
 
+  @override
+  State<Congrats> createState() => _CongratsState();
+}
+
+class _CongratsState extends State<Congrats> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -24,19 +32,11 @@ class Congrats extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(
                 top: AppPadding.p8.h,
-                bottom: AppPadding.p4.h,
+                bottom: AppPadding.p8.h,
                 left: AppPadding.p2.h,
                 right: AppPadding.p2.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                    text: 'WalkMate',
-                    textColor: ColorManager.primary,
-                    fontSize: FontSize.s14,
-                    fontWeight: FontWeightManager.semiBold),
-                SvgPicture.asset(AssetsManager.themeImage),
-              ],
+            child: CustomAppBar(
+              isTitleColorChange: false,
             ),
           ),
           Padding(
@@ -49,10 +49,10 @@ class Congrats extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.only(
-                  top: AppPadding.p12,
+                  top: AppPadding.p18,
                   left: AppPadding.p14,
                   right: AppPadding.p14,
-                  bottom: AppPadding.p14
+                  bottom: AppPadding.p18,
               ),
             child: CustomText(
                 text: 'Congratulations\non Reaching Your\nTarget',
@@ -78,7 +78,9 @@ class Congrats extends StatelessWidget {
           Center(
             child: CustomButton(
                 text: 'Home',
-                onTap: (){},
+                onTap: (){
+                  context.goNamed(AppRoutes.setLanding);
+                },
                 width: size.width * 0.2,
                 height: size.height * 0.007,
               color: ColorManager.primary

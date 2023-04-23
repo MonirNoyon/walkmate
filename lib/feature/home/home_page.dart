@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:walkmate/data/app_state_management.dart';
+import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/common_widget/custom_button.dart';
 import 'package:walkmate/feature/common_widget/custom_text.dart';
 import 'package:walkmate/resources/assets_manager.dart';
@@ -12,11 +16,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../config/route/app_routes.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    var darkMode = ref.watch(appState);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -27,43 +32,38 @@ class HomePage extends StatelessWidget {
                 top: AppPadding.p8.h,
                 left: AppPadding.p2.h,
                 right: AppPadding.p2.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                    text: 'WalkMate',
-                    textColor: ColorManager.primary,
-                    fontSize: FontSize.s14,
-                    fontWeight: FontWeightManager.semiBold),
-                SvgPicture.asset(AssetsManager.themeImage),
-              ],
+            child:  CustomAppBar(
+              isTitleColorChange: false,
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(
-                top: AppPadding.p4.h,
-                left: AppPadding.p2.h,
-                right: AppPadding.p4.h,
-                bottom: AppPadding.p4.h,
-              ),
-              child: CustomText(
-                  text: 'Set your walking goal today!',
-                  fontSize: FontSize.s24,
-                  fontWeight: FontWeightManager.medium)),
+            padding: EdgeInsets.only(
+              top: AppPadding.p4.h,
+              left: AppPadding.p2.h,
+              right: AppPadding.p4.h,
+              bottom: AppPadding.p4.h,
+            ),
+            child: Text(
+              "Set your walking goal today!",
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: FontSize.s24.sp,
+                  fontWeight: FontWeightManager.medium),
+            ),
+          ),
           Expanded(
               child: Stack(
             children: [
               Image.asset(
-                AssetsManager.personLight,
+                darkMode
+                    ? AssetsManager.personDark
+                    : AssetsManager.personLight,
                 fit: BoxFit.cover,
               ).animate().fade(duration: 1200.ms, delay: 500.ms),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
                         text: 'Get started',
-                        onTap: () {
-                          context.goNamed(AppRoutes.setLanding);
-                        },
+                        onTap: ()=> context.goNamed(AppRoutes.setLanding),
                         textColor: Colors.white,
                         width: size.width * 0.16,
                         height: size.height * 0.007,

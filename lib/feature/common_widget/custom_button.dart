@@ -54,7 +54,7 @@ Widget CustomButton({
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(radius),
-        splashColor: Colors.blue.withOpacity(0.5),
+        splashColor: Colors.white12.withOpacity(0.5),
         child: Center(
           child: CustomText(
               text: text,

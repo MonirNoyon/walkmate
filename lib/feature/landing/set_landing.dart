@@ -1,9 +1,12 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/config/route/app_routes.dart';
+import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/common_widget/custom_button.dart';
 import 'package:walkmate/resources/color_manager.dart';
 
@@ -12,8 +15,16 @@ import '../../resources/font_manager.dart';
 import '../../resources/values_manager.dart';
 import '../common_widget/custom_text.dart';
 
-class SetLandingPage extends StatelessWidget {
+class SetLandingPage extends StatefulWidget {
   const SetLandingPage({Key? key}) : super(key: key);
+
+  @override
+  State<SetLandingPage> createState() => _SetLandingPageState();
+}
+
+class _SetLandingPageState extends State<SetLandingPage> {
+
+  double _value = 0.00;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +34,8 @@ class SetLandingPage extends StatelessWidget {
         children: [
           Stack(
             children: [
+              Positioned(
+                  top: 0, right: 0, child: SvgPicture.asset(AssetsManager.pattern)),
               Container(
                 height: size.height / 2,
                 decoration: BoxDecoration(
@@ -33,24 +46,14 @@ class SetLandingPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     Padding(
                       padding: EdgeInsets.only(
                           top: AppPadding.p8.h,
                           left: AppPadding.p2.h,
                           right: AppPadding.p2.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                              text: 'WalkMate',
-                              textColor: Colors.white,
-                              fontSize: FontSize.s14,
-                              fontWeight: FontWeightManager.semiBold),
-                          SvgPicture.asset(
-                            AssetsManager.themeImage,
-                            color: Colors.white,
-                          ),
-                        ],
+                      child: CustomAppBar(
+                        isTitleColorChange: true,
                       ),
                     ),
                     Padding(
@@ -79,8 +82,6 @@ class SetLandingPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Positioned(
-                  top: 0, right: 0, child: SvgPicture.asset(AssetsManager.pattern)),
             ],
           ),
           SizedBox(
@@ -94,18 +95,36 @@ class SetLandingPage extends StatelessWidget {
           SliderTheme(
             data: SliderThemeData(
                 thumbColor: ColorManager.primary,
-
-                thumbShape: RoundSliderThumbShape(
-                    enabledThumbRadius: 20,
+                thumbShape: const RoundSliderThumbShape(
+                  enabledThumbRadius: 20.0,
+                  disabledThumbRadius: 20.0,
+                  elevation: 7,
+                  pressedElevation: 9,
+                  // child: Icon(Icons.volume_up),
                 ),
 
             ),
             child: Slider.adaptive(
-
-              value: 0.5,
-              divisions: 5,
-              label: '12',
-              onChanged: (value) {},
+              value: _value,
+              activeColor: ColorManager.primary,
+              inactiveColor: Colors.grey,
+              divisions: 50,
+              label: _value.toString(),
+              onChanged: (value) {
+                setState(() {
+                  _value = value;
+                });
+              },
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.only(left: AppPadding.p14,right: AppPadding.p12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(text: '0m'),
+                CustomText(text: '10000m'),
+              ],
             ),
           ),
           Spacer(),
@@ -138,3 +157,46 @@ class SetLandingPage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+//
+// class SliderThumbImage extends SliderComponentShape {
+//   final ui.Image image;
+//
+//   SliderThumbImage(this.image);
+//
+//   @override
+//   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+//     return Size(0, 0);
+//   }
+//
+//   @override
+//   void paint(PaintingContext context, Offset center,
+//       {required Animation<double> activationAnimation,
+//         required Animation<double> enableAnimation,
+//         required bool isDiscrete,
+//         required TextPainter labelPainter,
+//         required RenderBox parentBox,
+//         required SliderThemeData sliderTheme,
+//         required TextDirection textDirection,
+//         required double value}) {
+//     final canvas = context.canvas;
+//     final imageWidth = image?.width ?? 10;
+//     final imageHeight = image?.height ?? 10;
+//
+//     Offset imageOffset = Offset(
+//       center.dx - (imageWidth / 2),
+//       center.dy - (imageHeight / 2),
+//     );
+//
+//     Paint paint = Paint()..filterQuality = FilterQuality.high;
+//
+//     if (image != null) {
+//       canvas.drawImage(image, imageOffset, paint);
+//     }
+//   }
+// }
+//
