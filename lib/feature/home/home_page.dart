@@ -78,13 +78,13 @@ class HomePageState extends ConsumerState<HomePage> {
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(
                         text: 'Get started',
-                        onTap: () async{
-                          await _notificationServices.sendNotifications(
-                              "Target Completed",
-                              "You Covered 5000m-WalkMate"
-                          );
-                        },
-                        // onTap: ()=> context.goNamed(AppRoutes.setLanding),
+                        // onTap: () async{
+                        //   await _notificationServices.sendNotifications(
+                        //       "Target Completed",
+                        //       "You Covered 5000m-WalkMate"
+                        //   );
+                        // },
+                        onTap: ()=> context.goNamed(AppRoutes.setLanding),
                         textColor: Colors.white,
                         width: size.width * 0.16,
                         height: size.height * 0.007,

@@ -4,10 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/config/route/app_routes.dart';
+import 'package:walkmate/data/model/checkpoint_model.dart';
+import 'package:walkmate/data/repository/data_repository.dart';
 import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/landing/widget/custom_slider.dart';
 
 import '../../data/app_state_management.dart';
+import '../../data/services/notification_service.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
@@ -16,13 +19,20 @@ import '../common_widget/custom_button.dart';
 import '../common_widget/custom_text.dart';
 
 class CheckPoint extends ConsumerWidget {
-   CheckPoint({Key? key}) : super(key: key);
+   CheckPoint({Key? key,required this.target}) : super(key: key);
+
+   String target;
+
+   final NotificationServices _notificationServices = NotificationServices();
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final size = MediaQuery
         .of(context)
         .size;
+    final checkpoint = ref.watch(appDataRepo).checkPointList;
+
+
     return Scaffold(
       body: Column(
         children: [
@@ -59,7 +69,9 @@ class CheckPoint extends ConsumerWidget {
                           right: AppPadding.p2.h),
                       child: SizedBox(
                         height: size.height * 0.25,
-                        child: CustomSlider(),
+                        child: CustomSlider(
+                          target: target,
+                        ),
                       ),
                     ),
                   ],
@@ -88,7 +100,7 @@ class CheckPoint extends ConsumerWidget {
             child: ListView.builder(
                 padding: const EdgeInsets.only(
                     left: AppPadding.p12, right: AppPadding.p12),
-                itemCount: 15,
+                itemCount: checkpoint.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ListTile(
@@ -103,17 +115,17 @@ class CheckPoint extends ConsumerWidget {
                       width: 20,
                     ),
                     title: CustomText(text: 'Checkpoint $index'),
-                    trailing: CustomText(text: '${100 * index}'),
+                    trailing: CustomText(text: checkpoint[index].distance!.round().toString()),
                   );
                 }),
           ),
           CustomButton(
             text: 'Add checkpoint',
-            onTap: (){
-              context.pushNamed(
-                  AppRoutes.congrats,
-                  queryParams: {'isComplete': "1"}
-              );
+            onTap: () async{
+              await ref.read(appDataRepo.notifier).addCheckpoint(ModelCheckPoint(
+                index: 0,
+                distance: 50
+              ));
             },
             color: ColorManager.primary,
             width: size.width * 0.2,
@@ -124,7 +136,7 @@ class CheckPoint extends ConsumerWidget {
           ),
           CustomButton(
             text: 'Mark as completed',
-            onTap: () {
+            onTap: () async{
               context.pushNamed(
                   AppRoutes.congrats,
                   queryParams: {'isComplete': "0"}

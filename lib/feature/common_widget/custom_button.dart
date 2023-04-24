@@ -10,6 +10,7 @@ import '../../resources/color_manager.dart';
 
 Widget CustomButton({
   required String text,
+  bool isEnabled = true,
   bool isSvgImage = false,
   bool? softWrap,
   TextAlign? textAlign,
@@ -37,32 +38,35 @@ Widget CustomButton({
   bool isBorder = false,
   bool isSelected = false,
 }) {
-  return Container(
-    height: height.h,
-    width: width.w,
-    margin: EdgeInsets.only(top: top, left: left, bottom: bottom, right: right),
-    padding: EdgeInsets.only(top: topPadding, left: leftPadding, bottom: bottomPadding, right: rightPadding),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius),
-        border: isBorder ? Border.all(
-            width: 0.5,
-            color: isSelected ? ColorManager.primary : ColorManager.dark
-        ):Border.all(color: Colors.transparent),
-        color: color),
-    child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(radius),
-        splashColor: Colors.white12.withOpacity(0.5),
-        child: Center(
-          child: CustomText(
-              text: text,
-            textStyle: GoogleFonts.manrope(
-              color: isBorder ? ColorManager.primary : Colors.white
+  return AbsorbPointer(
+    absorbing: !isEnabled,
+    child: Container(
+      height: height.h,
+      width: width.w,
+      margin: EdgeInsets.only(top: top, left: left, bottom: bottom, right: right),
+      padding: EdgeInsets.only(top: topPadding, left: leftPadding, bottom: bottomPadding, right: rightPadding),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          border: isBorder ? Border.all(
+              width: 0.5,
+              color: isSelected ? ColorManager.primary : ColorManager.dark
+          ):Border.all(color: Colors.transparent),
+          color: color),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(radius),
+          splashColor: Colors.white12.withOpacity(0.5),
+          child: Center(
+            child: CustomText(
+                text: text,
+              textStyle: GoogleFonts.manrope(
+                color: isBorder ? ColorManager.primary : Colors.white
+              ),
+              fontWeight: fontWeight,
+              fontSize: fontSize.sp
             ),
-            fontWeight: fontWeight,
-            fontSize: fontSize.sp
           ),
         ),
       ),

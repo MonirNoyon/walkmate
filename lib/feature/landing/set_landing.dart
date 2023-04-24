@@ -113,7 +113,7 @@ class _SetLandingPageState extends State<SetLandingPage> {
               activeColor: ColorManager.primary,
               inactiveColor: Colors.grey,
               divisions: 50,
-              label: _value.toString(),
+              label: (_value*10000).round().toString(),
               onChanged: (value) {
                 setState(() {
                   _value = value;
@@ -134,10 +134,14 @@ class _SetLandingPageState extends State<SetLandingPage> {
           Spacer(),
           CustomButton(
             text: 'Set limit',
+            isEnabled: _value <= 0 ? false : true,
             onTap: (){
-              context.pushNamed(AppRoutes.checkPoint);
+              context.pushNamed(
+                  AppRoutes.checkPoint,
+                queryParams: {'target':(_value*10000).round().toString()}
+              );
             },
-            color: ColorManager.primary,
+            color: _value <= 0 ? Colors.black12 : ColorManager.primary,
             width: size.width * 0.2,
             height: size.height * 0.007,
           ),

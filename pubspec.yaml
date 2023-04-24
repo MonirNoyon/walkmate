@@ -23,12 +23,17 @@ dependencies:
   flutter_riverpod: ^2.3.5  # application state management
   flutter_local_notifications: ^13.0.0 #for local notification
   permission_handler: ^10.2.0 #for app permission check
+  flutter_launcher_icons: ^0.13.1 # uses for application icon
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/Logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

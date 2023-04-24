@@ -17,7 +17,9 @@ class AppPages {
     GoRoute(
         name: AppRoutes.checkPoint,
         path: "/${AppRoutes.checkPoint}",
-        builder: ((context, state) => CheckPoint())),
+        builder: ((context, state) => CheckPoint(
+          target: state.queryParams['target'].toString(),
+        ))),
     GoRoute(
         name: AppRoutes.congrats,
         path: "/${AppRoutes.congrats}",
