@@ -1,6 +1,6 @@
 class ModelCheckPoint{
-  int? index;
-  double? distance;
+  double distance;
+  double time;
 
-  ModelCheckPoint({this.index, this.distance});
+  ModelCheckPoint({required this.distance,required this.time});
 }

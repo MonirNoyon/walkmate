@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/data/app_state_management.dart';
 import 'package:walkmate/data/repository/data_repository.dart';
@@ -29,10 +30,27 @@ class HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    _notificationServices.initializeNotification();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await checkUserPermission();
       await ref.read(appDataRepo.notifier).getCurrentLocation();
     });
+    _notificationServices.initializeNotification();
+  }
+
+  checkUserPermission() async{
+    var locationPermission = await Permission.location.status;
+    var notificationPermission = await Permission.notification.status;
+    if(locationPermission.isDenied){
+      if(await Permission.location.request().isGranted){
+        print('Permission granted');
+      }
+    }
+    if(notificationPermission.isDenied){
+      if(await Permission.notification.request().isGranted){
+        print('Permission granted');
+      }
+    }
   }
 
 

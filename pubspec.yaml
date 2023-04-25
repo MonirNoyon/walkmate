@@ -25,6 +25,7 @@ dependencies:
   permission_handler: ^10.2.0 #for app permission check
   flutter_launcher_icons: ^0.13.1 # uses for application icon
   geolocator: ^9.0.2  #track user location
+  syncfusion_flutter_charts: ^21.1.41 #history charts
 
 dev_dependencies:
   flutter_test:

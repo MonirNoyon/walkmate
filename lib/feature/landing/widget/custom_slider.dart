@@ -25,6 +25,7 @@ class CustomSliderState extends ConsumerState<CustomSlider> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
       await ref.read(appDataRepo.notifier).complete(0.00);
+      await ref.read(appDataRepo.notifier).resetCheckList();  // already added checklist remove
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:walkmate/data/history/history.dart';
 import 'package:walkmate/feature/congrats/congrates.dart';
 import 'package:walkmate/feature/home/home_page.dart';
 import 'package:walkmate/feature/landing/checkpoint.dart';
@@ -24,5 +25,9 @@ class AppPages {
         builder: ((context, state) => Congrats(
               isComplete: state.queryParams['isComplete'].toString(),
             ))),
+    GoRoute(
+        name: AppRoutes.history,
+        path: "/${AppRoutes.history}",
+        builder: ((context, state) => History())),
   ]);
 }

@@ -172,7 +172,7 @@ class SetLandingPageState extends ConsumerState<SetLandingPage> {
           ),
           CustomButton(
             text: 'History',
-            onTap: () {},
+            onTap: () => context.pushNamed(AppRoutes.history),
             textColor: ColorManager.primary,
             isBorder: true,
             isSelected: true,

@@ -122,7 +122,7 @@ class CheckPointState extends ConsumerState<CheckPoint> {
                     ),
                     title: CustomText(text: 'Checkpoint ${index + 1}'),
                     trailing: CustomText(
-                        text: checkpoint[index].distance!.round().toString()),
+                        text: checkpoint[index].distance.round().toString()),
                   );
                 }),
           ),
@@ -130,10 +130,14 @@ class CheckPointState extends ConsumerState<CheckPoint> {
             text: 'Add checkpoint',
             onTap: () async {
               if (checkpoint.isNotEmpty) {
-                if (checkpoint[checkpoint.length - 1].distance! <
+                if (checkpoint[checkpoint.length - 1].distance <
                     complete * 10000) {
                   await ref.read(appDataRepo.notifier).addCheckpoint(
-                      ModelCheckPoint(index: 0, distance: complete * 10000));
+                      ModelCheckPoint(
+                          distance: complete * 10000,
+                        time: double.parse(DateTime.now().second.toString())
+                      )
+                  );
                 }else{
                   final snackBar = SnackBar(
                     content: CustomText(text: "You have already covered this distance."),
@@ -148,7 +152,11 @@ class CheckPointState extends ConsumerState<CheckPoint> {
                 }
               }else{
                 await ref.read(appDataRepo.notifier).addCheckpoint(
-                    ModelCheckPoint(index: 0, distance: complete * 10000));
+                    ModelCheckPoint(
+                        distance: complete * 10000,
+                        time: double.parse(DateTime.now().second.toString())
+                    )
+                );
               }
             },
             color: ColorManager.primary,

@@ -39,6 +39,10 @@ class DataRepository extends ChangeNotifier{
     _completedDistance = distance;
     notifyListeners();
   }
+  resetCheckList(){
+    checkPointList = [];
+    notifyListeners();
+  }
 
 
   getCurrentLocation() async {
@@ -53,13 +57,14 @@ class DataRepository extends ChangeNotifier{
      positionStream = Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 15,
+      distanceFilter: 80,
     )).listen((position) {
       double distanceInMeters = Geolocator.distanceBetween(
           _currentPosition?.latitude ?? 0.00, _currentPosition?.longitude ?? 0.00,
           position.latitude, position.longitude);
       if((_completedDistance+(distanceInMeters/10000))>=targetDistance){
         positionStream?.cancel();
+        checkPointList = [];
         _notificationServices.sendNotifications(
             "Target Completed",
             "You Covered ${(targetDistance*10000).round()}m-WalkMate");
