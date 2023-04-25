@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/data/app_state_management.dart';
+import 'package:walkmate/data/repository/data_repository.dart';
 import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/common_widget/custom_button.dart';
-import 'package:walkmate/feature/common_widget/custom_text.dart';
 import 'package:walkmate/resources/assets_manager.dart';
 import 'package:walkmate/resources/color_manager.dart';
 import 'package:walkmate/resources/font_manager.dart';
@@ -31,6 +30,9 @@ class HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     _notificationServices.initializeNotification();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await ref.read(appDataRepo.notifier).getCurrentLocation();
+    });
   }
 
 

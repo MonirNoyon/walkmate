@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,8 +11,6 @@ import 'package:walkmate/data/repository/data_repository.dart';
 import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/landing/widget/custom_slider.dart';
 
-import '../../data/app_state_management.dart';
-import '../../data/services/notification_service.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
@@ -18,20 +18,30 @@ import '../../resources/values_manager.dart';
 import '../common_widget/custom_button.dart';
 import '../common_widget/custom_text.dart';
 
-class CheckPoint extends ConsumerWidget {
-   CheckPoint({Key? key,required this.target}) : super(key: key);
-
-   String target;
-
-   final NotificationServices _notificationServices = NotificationServices();
+class CheckPoint extends ConsumerStatefulWidget {
+  CheckPoint({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final size = MediaQuery
-        .of(context)
-        .size;
-    final checkpoint = ref.watch(appDataRepo).checkPointList;
+  CheckPointState createState() => CheckPointState();
+}
 
+class CheckPointState extends ConsumerState<CheckPoint> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await ref.watch(appDataRepo).updateDistance(context);
+    });
+    // ref.watch(appDataRepo).updateDistance();
+    // Timer.periodic(const Duration(seconds: 5), (timer) => ref.watch(appDataRepo).updateDistance());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final checkpoint = ref.watch(appDataRepo).checkPointList;
+    final complete = ref.watch(appDataRepo).completedDistance;
 
     return Scaffold(
       body: Column(
@@ -69,15 +79,12 @@ class CheckPoint extends ConsumerWidget {
                           right: AppPadding.p2.h),
                       child: SizedBox(
                         height: size.height * 0.25,
-                        child: CustomSlider(
-                          target: target,
-                        ),
+                        child: CustomSlider(),
                       ),
                     ),
                   ],
                 ),
               ),
-
             ],
           ),
           SizedBox(
@@ -95,7 +102,6 @@ class CheckPoint extends ConsumerWidget {
             endIndent: AppPadding.p12,
             indent: AppPadding.p12,
           ),
-
           Expanded(
             child: ListView.builder(
                 padding: const EdgeInsets.only(
@@ -114,18 +120,36 @@ class CheckPoint extends ConsumerWidget {
                       height: 20,
                       width: 20,
                     ),
-                    title: CustomText(text: 'Checkpoint $index'),
-                    trailing: CustomText(text: checkpoint[index].distance!.round().toString()),
+                    title: CustomText(text: 'Checkpoint ${index + 1}'),
+                    trailing: CustomText(
+                        text: checkpoint[index].distance!.round().toString()),
                   );
                 }),
           ),
           CustomButton(
             text: 'Add checkpoint',
-            onTap: () async{
-              await ref.read(appDataRepo.notifier).addCheckpoint(ModelCheckPoint(
-                index: 0,
-                distance: 50
-              ));
+            onTap: () async {
+              if (checkpoint.isNotEmpty) {
+                if (checkpoint[checkpoint.length - 1].distance! <
+                    complete * 10000) {
+                  await ref.read(appDataRepo.notifier).addCheckpoint(
+                      ModelCheckPoint(index: 0, distance: complete * 10000));
+                }else{
+                  final snackBar = SnackBar(
+                    content: CustomText(text: "You have already covered this distance."),
+                    backgroundColor: (Colors.black),
+                    action: SnackBarAction(
+                      label: 'dismiss',
+                      onPressed: () {
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              }else{
+                await ref.read(appDataRepo.notifier).addCheckpoint(
+                    ModelCheckPoint(index: 0, distance: complete * 10000));
+              }
             },
             color: ColorManager.primary,
             width: size.width * 0.2,
@@ -136,11 +160,9 @@ class CheckPoint extends ConsumerWidget {
           ),
           CustomButton(
             text: 'Mark as completed',
-            onTap: () async{
-              context.pushNamed(
-                  AppRoutes.congrats,
-                  queryParams: {'isComplete': "0"}
-              );
+            onTap: () async {
+              context.pushNamed(AppRoutes.congrats,
+                  queryParams: {'isComplete': "0"});
             },
             textColor: ColorManager.primary,
             isBorder: true,
@@ -156,9 +178,4 @@ class CheckPoint extends ConsumerWidget {
     );
   }
 }
-
-
-
-
-
 

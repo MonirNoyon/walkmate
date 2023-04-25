@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:walkmate/config/route/app_routes.dart';
+import 'package:walkmate/data/repository/data_repository.dart';
 import 'package:walkmate/feature/common_widget/custom_appbar.dart';
 import 'package:walkmate/feature/common_widget/custom_button.dart';
 import 'package:walkmate/resources/color_manager.dart';
@@ -15,20 +19,42 @@ import '../../resources/font_manager.dart';
 import '../../resources/values_manager.dart';
 import '../common_widget/custom_text.dart';
 
-class SetLandingPage extends StatefulWidget {
+class SetLandingPage extends ConsumerStatefulWidget {
   const SetLandingPage({Key? key}) : super(key: key);
 
   @override
-  State<SetLandingPage> createState() => _SetLandingPageState();
+  SetLandingPageState createState() => SetLandingPageState();
 }
 
-class _SetLandingPageState extends State<SetLandingPage> {
+class SetLandingPageState extends ConsumerState<SetLandingPage> {
 
-  double _value = 0.00;
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await ref.read(appDataRepo.notifier).target(0.00);
+    });
+
+
+  }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final target = ref.watch(appDataRepo).targetDistance;
     return Scaffold(
       body: Column(
         children: [
@@ -66,7 +92,7 @@ class _SetLandingPageState extends State<SetLandingPage> {
                         child: CustomText(
                             text: 'Set your walking goal today!',
                             textStyle: GoogleFonts.plusJakartaSans(
-                              color: Colors.white
+                                color: Colors.white
                             ),
                             fontSize: FontSize.s24,
                             fontWeight: FontWeightManager.medium)),
@@ -77,12 +103,13 @@ class _SetLandingPageState extends State<SetLandingPage> {
                         ),
                         child: CustomText(
                             text:
-                                'Your determination and effort is inspiring. Keep pushing yourself to reach new heights.',
+                            'Your determination and effort is inspiring. Keep pushing yourself to reach new heights.',
                             textStyle: GoogleFonts.plusJakartaSans(
                                 color: Colors.white
                             ),
                             fontSize: FontSize.s12,
                             fontWeight: FontWeightManager.light)),
+                    // Center(child: CustomText(text: _totalDistance.toString()),)
                   ],
                 ),
               ),
@@ -98,31 +125,27 @@ class _SetLandingPageState extends State<SetLandingPage> {
           ),
           SliderTheme(
             data: SliderThemeData(
-                thumbColor: ColorManager.primary,
-                thumbShape: const RoundSliderThumbShape(
-                  enabledThumbRadius: 20.0,
-                  disabledThumbRadius: 20.0,
-                  elevation: 7,
-                  pressedElevation: 9,
-                  // child: Icon(Icons.volume_up),
-                ),
+              thumbColor: ColorManager.primary,
+              thumbShape: const RoundSliderThumbShape(
+                enabledThumbRadius: 20.0,
+                disabledThumbRadius: 20.0,
+                elevation: 7,
+                pressedElevation: 9,
+                // child: Icon(Icons.volume_up),
+              ),
 
             ),
             child: Slider.adaptive(
-              value: _value,
+              value: target,
               activeColor: ColorManager.primary,
               inactiveColor: Colors.grey,
               divisions: 50,
-              label: (_value*10000).round().toString(),
-              onChanged: (value) {
-                setState(() {
-                  _value = value;
-                });
-              },
+              label: (target*10000).round().toString(),
+              onChanged: (value) => ref.read(appDataRepo.notifier).target(value),
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(left: AppPadding.p14,right: AppPadding.p12),
+            padding: const EdgeInsets.only(left: AppPadding.p14,right: AppPadding.p12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,14 +157,13 @@ class _SetLandingPageState extends State<SetLandingPage> {
           Spacer(),
           CustomButton(
             text: 'Set limit',
-            isEnabled: _value <= 0 ? false : true,
+            isEnabled: target <= 0 ? false : true,
             onTap: (){
               context.pushNamed(
-                  AppRoutes.checkPoint,
-                queryParams: {'target':(_value*10000).round().toString()}
+                AppRoutes.checkPoint,
               );
             },
-            color: _value <= 0 ? Colors.black12 : ColorManager.primary,
+            color: target <= 0 ? Colors.black12 : ColorManager.primary,
             width: size.width * 0.2,
             height: size.height * 0.007,
           ),
@@ -166,45 +188,3 @@ class _SetLandingPageState extends State<SetLandingPage> {
   }
 }
 
-
-
-
-
-//
-// class SliderThumbImage extends SliderComponentShape {
-//   final ui.Image image;
-//
-//   SliderThumbImage(this.image);
-//
-//   @override
-//   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-//     return Size(0, 0);
-//   }
-//
-//   @override
-//   void paint(PaintingContext context, Offset center,
-//       {required Animation<double> activationAnimation,
-//         required Animation<double> enableAnimation,
-//         required bool isDiscrete,
-//         required TextPainter labelPainter,
-//         required RenderBox parentBox,
-//         required SliderThemeData sliderTheme,
-//         required TextDirection textDirection,
-//         required double value}) {
-//     final canvas = context.canvas;
-//     final imageWidth = image?.width ?? 10;
-//     final imageHeight = image?.height ?? 10;
-//
-//     Offset imageOffset = Offset(
-//       center.dx - (imageWidth / 2),
-//       center.dy - (imageHeight / 2),
-//     );
-//
-//     Paint paint = Paint()..filterQuality = FilterQuality.high;
-//
-//     if (image != null) {
-//       canvas.drawImage(image, imageOffset, paint);
-//     }
-//   }
-// }
-//

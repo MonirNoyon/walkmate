@@ -13,13 +13,11 @@ class AppPages {
     GoRoute(
         name: AppRoutes.setLanding,
         path: "/${AppRoutes.setLanding}",
-        builder: ((context, state) => const SetLandingPage())),
+        builder: ((context, state) =>  SetLandingPage())),
     GoRoute(
         name: AppRoutes.checkPoint,
         path: "/${AppRoutes.checkPoint}",
-        builder: ((context, state) => CheckPoint(
-          target: state.queryParams['target'].toString(),
-        ))),
+        builder: ((context, state) => CheckPoint())),
     GoRoute(
         name: AppRoutes.congrats,
         path: "/${AppRoutes.congrats}",
