@@ -135,7 +135,7 @@ class CheckPointState extends ConsumerState<CheckPoint> {
                   await ref.read(appDataRepo.notifier).addCheckpoint(
                       ModelCheckPoint(
                           distance: complete * 10000,
-                        time: double.parse(DateTime.now().second.toString())
+                          time: double.parse("${DateTime.now().hour}.${DateTime.now().minute}")
                       )
                   );
                 }else{
@@ -154,7 +154,7 @@ class CheckPointState extends ConsumerState<CheckPoint> {
                 await ref.read(appDataRepo.notifier).addCheckpoint(
                     ModelCheckPoint(
                         distance: complete * 10000,
-                        time: double.parse(DateTime.now().second.toString())
+                        time: double.parse("${DateTime.now().hour}.${DateTime.now().minute}")
                     )
                 );
               }

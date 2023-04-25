@@ -57,7 +57,7 @@ class DataRepository extends ChangeNotifier{
      positionStream = Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 80,
+      distanceFilter: 30,
     )).listen((position) {
       double distanceInMeters = Geolocator.distanceBetween(
           _currentPosition?.latitude ?? 0.00, _currentPosition?.longitude ?? 0.00,
@@ -76,6 +76,7 @@ class DataRepository extends ChangeNotifier{
         _completedDistance += distanceInMeters / 10000;
         _currentPosition = position;
       }
+      print(_completedDistance);
       notifyListeners();
     });
     notifyListeners();

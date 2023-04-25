@@ -73,15 +73,17 @@ class History extends ConsumerWidget {
           SizedBox(height: AppMargin.m4.h,),
           Center(
               child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis: NumericAxis(minimum: 0, maximum: 5000, interval: 100),
+                  plotAreaBorderColor: Colors.transparent,
+                  primaryXAxis: CategoryAxis(
+                      borderColor: Colors.transparent,
+                  ),
+                  primaryYAxis: NumericAxis(minimum: 0, maximum: 5000, interval: 500),
                   // tooltipBehavior: _tooltip,
                   series: <ChartSeries<ModelCheckPoint, String>>[
                     ColumnSeries<ModelCheckPoint, String>(
                         dataSource: checkPoint,
                         xValueMapper: (ModelCheckPoint data, _) => data.time.round().toString(),
                         yValueMapper: (ModelCheckPoint data, _) => data.distance.round(),
-                        name: 'Gold',
                         width: 0.1,
                         borderColor: Colors.blueAccent,
                         trackColor: Colors.red,

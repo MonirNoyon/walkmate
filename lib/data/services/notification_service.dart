@@ -1,4 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:walkmate/config/route/app_routes.dart';
+
+import '../../config/route/app_pages.dart';
 
 class NotificationServices {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -7,11 +11,10 @@ class NotificationServices {
   final AndroidInitializationSettings _androidInitializationSettings = const
   AndroidInitializationSettings('notification_icon');
 
-  void initializeNotification() async {
+  initializeNotification() async {
     InitializationSettings initialSettings =
     InitializationSettings(android: _androidInitializationSettings);
-    await _flutterLocalNotificationsPlugin.initialize(initialSettings).then((value){
-      print("Is okay");
+    await _flutterLocalNotificationsPlugin.initialize(initialSettings,onDidReceiveNotificationResponse: onDidReceiveNotificationResponse).then((value){
       print(value.toString());
     });
   }
@@ -25,5 +28,16 @@ class NotificationServices {
     NotificationDetails(android: androidNotificationDetails);
     await _flutterLocalNotificationsPlugin.show(
         0, title, body, notificationDetails);
+  }
+
+
+  onDidReceiveNotificationResponse(NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+    }
+    AppPages.router.pushNamed(
+        AppRoutes.congrats,
+        queryParams: {'isComplete': '1'}
+        );
   }
 }
